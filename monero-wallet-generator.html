@@ -10725,21 +10725,13 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
             </p>
         </div>
     </div>
-    <div class="row valign-wrapper">
-        <div class="col s4 right-align ">
+    <div class="row center-align">
+        <div class="col s12">
                 <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" action=""/>
-                <p>Custom entropy (leave empty to use PRNG)</p>
+                <p>Dice rolls (leave empty to use PRNG)</p>
                 <input type="text" value="" id="user_entropy_widget" />
-        </div>
-        <div class="col s1 offset-s1"><h4>or</h4></div>
-        <div class="col s5 offset-s1">
-            <form>
-                <input class="btn deep-orange" type="button" onclick="js:genwallet_prefix();" value="Generate wallet with prefix" action="" id="gen_prefix_widget"/>
-                <p>(very slow for more than a few characters)</p>
-                <input type="text" value="4" id="prefix_widget" oninput="js:check_prefix_validity()"; />
-            </form>
-        </div>
+        </div>        
     </div>
     <div class="row center-align">
         <div class="col s12">
@@ -10949,8 +10941,12 @@ function genwallet(lang)
     if (user_entropy === "") {
       seed = cnUtil.sc_reduce32(cnUtil.rand_32());
     }
-    else {
-      seed = cnUtil.sc_reduce32(poor_mans_kdf(user_entropy));
+    else { 
+	  seed = JSBigInt.parse(user_entropy_widget.value,6).toString(16);
+	  while (seed.length < 64) {
+	    seed = "0"+seed;
+	  }
+	  seed = cnUtil.sc_reduce32(seed);
     }
     keys = cnUtil.create_address(seed);
   }
