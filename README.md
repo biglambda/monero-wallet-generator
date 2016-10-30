@@ -5,4 +5,4 @@ This page generates a new Monero address. It is self contained and does all the 
 
 This is a fork of the original one, which replaces custom entropy with dice rolls. The idea is to use them directly as the seed, ie, just roll a big enough base6 number and convert to base16 for seed.
 
-- Work in progress -
+Work in progress
