@@ -10708,7 +10708,7 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
 <div class="row">&nbsp;</div>
 <div class="row center-align">
     <div class="col s12">
-        <h4 style="color: #555;">Offline wallet generator</h4>
+        <h4 style="color: #555;">Offline wallet generator, dice (d6) version</h4>
     </div>
 </div>
 
@@ -10719,9 +10719,19 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 This page generates a new <a href="http://getmonero.org/">Monero</a> wallet. It is self contained and
                 does all the necessary calculations locally, so is suitable for generating a new wallet on a machine
                 that is not connected to the network, and may even never be. This way, you can create
-                a Monero wallet without risking the keys. This file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
-                You can check for up to date versions of this page
+                a Monero wallet without risking the keys.
+				<br><br>
+				This is a modified version of the original where instead of accepting anything as the user generated
+				entropy, it will accept only exactly 98 dice (d6) rolls and create the seed based on solely that. If anything else is inputed, the wallet will be randomly generated using the same PRNG as the original. Also, the
+				vanity generator has been removed because I didn't like clicking on it accidentially.
+				<br><br>				
+				The original file is GPG signed, see <a href="#gpg-instructions">GPG instructions</a>.
+                You can check for up to date versions of the original page
                 <a href="https://github.com/moneromooo-monero/monero-wallet-generator/blob/master/monero-wallet-generator.html">here</a>.
+				<br>
+				The modified file is GPG signed as well.
+				You can check for up to date versions of the dice (d6) version 
+				<a href="https://github.com/JollyMort/monero-wallet-generator/blob/master/monero-wallet-generator-d6.html">here</a>.
             </p>
         </div>
     </div>
@@ -10730,7 +10740,10 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                 <input class="btn orange" type="button" onclick="js:genwallet(null);"
                        value="Generate wallet" action=""/>
                 <p>Dice rolls (leave empty to use PRNG)</p>
-                <input type="text" value="" id="user_entropy_widget" />
+                <input type="text" value="" id="user_entropy_widget" oninput="js:checkRollsInput()"/>
+        </div>
+		<div class="col s12">
+                    <p class="center-align" id="rolls_status_widget">0 dice rolls, using PRNG instead.</p>
         </div>        
     </div>
     <div class="row center-align">
@@ -10831,27 +10844,31 @@ bC0zLjUsMjAuNGgtNkwyNDQuOCwzMTAuNkwyNDQuOCwzMTAuNnoiLz4KPC9nPgo8L3N2Zz4K">
                     If you found this useful, a donation would be appreciated:
                     <br>
                 <pre>4AfUP827TeRZ1cck3tZThgZbRCEwBrpcJTkA1LCiyFVuMH4b5y59bKMZHGb9y58K3gSjWDCBsB4RkGsGDhsmMG5R2qmbLeW</pre>
-
+					<br>
+					Modification to create the dice (d6) version done by JollyMort, and he likes beer too:
+					
+					<br><br>
+				<pre>47SwCENwfMve9LtbWzLptxZ1RKYeE5A7aeU9291Bg9h95EYnhsJmJPCSjmicMfwtjwbX5kzaua8XJB5PvP9eV94b12feFFi</pre>
                 <br>
                 Thanks, and welcome to Monero!
                 </p>
 <h5 id="gpg-instructions">How to verify GPG signatures</h5>
 
 <p>
-All released versions of this page will be GPG signed by moneromooo, to avoid trojaned versions
+All released versions of this page will be GPG signed by JollyMort, to avoid trojaned versions
 being passed around. It is in your interest to check the signature.
 </p>
 <p>
 This page is maintained as a
-<a href="https://github.com/moneromooo-monero/monero-wallet-generator/">git repository</a>.
-All commits are signed. In addition, released versions of the page are signed separately.
+<a href="https://github.com/JollyMort/monero-wallet-generator">git repository</a>.
+All commits are not yet signed as I don't know how to do it. In addition, released versions of the page are signed separately.
 In order to check either, you first need to import
-<a href="https://raw.githubusercontent.com/monero-project/bitmonero/master/utils/gpg_keys/moneromooo.asc">moneromooo's GPG key</a>
-from the Monero source tree:
+<a href="https://raw.githubusercontent.com/JollyMort/monero-wallet-generator/master/JollyMort.asc">JollyMort's GPG key</a>
+from the wallet generator source tree:
 </p>
 
 <code>
-gpg --import moneromooo.asc
+gpg --import JollyMort.asc
 </code>
 
 <h5>Checking a standalone signature</h5>
@@ -10859,12 +10876,12 @@ gpg --import moneromooo.asc
 <p>
 You need to get the signature file corresponding to the version of the page you're using.
 Original signature files are
-<a href="https://raw.githubusercontent.com/moneromooo-monero/monero-wallet-generator/master/monero-wallet-generator.html.asc">in the git repository</a>
-as well. Save it as monero-wallet-generator.html.asc, then:
+<a href="https://raw.githubusercontent.com/JollyMort/monero-wallet-generator/master/monero-wallet-generator-d6.html.asc">in the git repository</a>
+as well. Save it as monero-wallet-generator-d6.html.asc, then:
 </p>
 
 <code>
-gpg --verify monero-wallet-generator.html.asc
+gpg --verify monero-wallet-generator-d6.html.asc
 </code>
 
 <p>
@@ -10872,12 +10889,12 @@ You should see a message similar to:
 </p>
 
 <code>
-gpg: Good signature from "moneromooo-monero &lt;moneromooo-monero@users.noreply.github.com&gt;"
+gpg: Good signature from "Jolly Mort &lt;JollyMort@users.noreply.github.com&gt;"
 </code>
 
 <p>
 Check the signature is from the key you imported previously! If not, you may be checking
-that file was properly signed by an attacker instead of moneromooo. Beware that anyone can
+that file was properly signed by an attacker instead of JollyMort. Beware that anyone can
 place any email address in a new GPG key, so the right email being shown is no guarantee.
 </p>
 
@@ -10901,12 +10918,12 @@ You should see a message similar to:
 </p>
 
 <code>
-gpg: Good signature from "moneromooo-monero &lt;moneromooo-monero@users.noreply.github.com&gt;"
+gpg: Good signature from "Jolly Mort &lt;JollyMort@users.noreply.github.com&gt;"
 </code>
 
 <p>
 Check the signature is from the key you imported previously! If not, you may be checking
-that file was properly signed by an attacker instead of moneromooo. Beware that anyone can
+that file was properly signed by an attacker instead of JollyMort. Beware that anyone can
 place any email address in a new GPG key, so the right email being shown is no guarantee.
 </p>
 </div>
@@ -10924,6 +10941,25 @@ function poor_mans_kdf(str)
 }
 current_lang='english';
 keys = null;
+function swap_endian(hex) {
+    'use strict';
+    if (hex.length % 2 !== 0) throw 'Invalid input length: ' + hex.length;
+	var sehex="";
+	for(var i = hex.length - 2; i>=0; i -= 2) {
+		sehex = sehex + hex.slice(i, i + 2);
+	}
+    return sehex;
+}
+function checkRollsInput() {
+	rolls_status_widget = document.getElementById("rolls_status_widget");
+	user_entropy_widget = document.getElementById("user_entropy_widget");
+	if(user_entropy_widget.value.length !== 98) {
+		rolls_status_widget.innerHTML = user_entropy_widget.value.length + " dice rolls, using PRNG instead.";
+	}
+	else {
+		rolls_status_widget.innerHTML = user_entropy_widget.value.length + " dice rolls. Using dice rolls.";
+	}
+}
 function genwallet(lang)
 {
   spend_key_widget = document.getElementById("spend_key_widget");
@@ -10938,15 +10974,23 @@ function genwallet(lang)
   }
   else {
     var user_entropy = user_entropy_widget.value;
-    if (user_entropy === "") {
+    if (user_entropy.length !== 98) {
       seed = cnUtil.sc_reduce32(cnUtil.rand_32());
     }
-    else { 
-	  seed = JSBigInt.parse(user_entropy_widget.value,6).toString(16);
-	  while (seed.length < 64) {
-	    seed = "0"+seed;
-	  }
-	  seed = cnUtil.sc_reduce32(seed);
+    else {
+		seed_b6 = "";
+		user_entropy = (user_entropy.slice(0,1) % 2) + user_entropy.slice(1,user_entropy.length); //make first roll either 1 or 2.
+																									  //this is to keep the base6 number less than l.
+																									  //biggest number generated like this can be
+																									  //as big as 0.835 * l
+		for(i=0;i<user_entropy.length;i++) {
+			seed_b6 = seed_b6 + (user_entropy.slice(i, i + 1) * 1 - 1); //subtract 1 from each roll to get a proper base6 number
+		}
+		seed = JSBigInt.parse(seed_b6,6).toString(16); //convert base6 seed to base16 seed
+		while (seed.length < 64) {
+			seed = "0"+seed; //pad with 0's to 64 chars (32 bytes)
+		}
+		seed = cnUtil.sc_reduce32(swap_endian(seed)); //swap endian from little endian to big endian as used further on
     }
     keys = cnUtil.create_address(seed);
   }
